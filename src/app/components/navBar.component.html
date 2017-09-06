@@ -14,15 +14,22 @@
     vertical-align: top;
     color: #8590a6;
   }
-  .menu-title {
+  .menu-title{
     display: inline-block;
     width: 30px;
     box-sizing: content-box;
-    padding: 0 15px;
+    padding-left: 15px;
+  }
+  .menu-title:not(:last-child){
+    padding-right: 15px;
   }
   .menu-title:hover {
     cursor: pointer;
     color: #1478ff;
+  }
+  .menu-title > a{
+    color: inherit;
+    text-decoration: none;
   }
   .menu-title-active {
     color: #333;
@@ -47,33 +54,46 @@
 
 </style>
 <div style="height: 53px;width: 100%;background-color: #ffffff;position: fixed;top: 0;">
-  <div style="width: 1000px;height: 53px;margin: 0 auto;">
+  <div class="wrapper" style="height: 53px;">
     <div class="app-logo">
       {{appName}}
     </div>
     <div class="menu-list">
       <div
-        *ngFor="let menu of menuList, let i = index"
+        *ngFor="let menu of menuList"
         class="menu-title"
-        [ngClass]="{'menu-title-active': i === currentFlag}"
-        (click)="onSelect(i, menu)"
+        [ngClass]="{'menu-title-active': menu.name === currentFlag}"
+        (click)="onSelect(menu)"
       >
-        {{menu.name}}
+        <a [routerLink]="[menu.linkTo]">
+          {{menu.name}}
+        </a>
       </div>
     </div>
-    <div style="display: inline-block;">
-      <input class="search-bar" placeholder="搜索你感兴趣的内容">
-    </div>
-    <div style="display: inline-block;">
-      <label class="btn-primary btn-diy" ngbButtonLabel>
-        <input type="hidden" ngbButton > 搜索
-      </label>
+    <div style="display: inline-block;margin:0 26px">
+      <div style="display: inline-block;">
+        <input class="search-bar" placeholder="搜索你感兴趣的内容">
+      </div>
+      <div style="display: inline-block;">
+        <label class="btn-primary btn-diy" ngbButtonLabel>
+          <input type="hidden" ngbButton > 搜索
+        </label>
+      </div>
     </div>
     <div class="menu-list">
-      <div class="menu-title">通知</div>
-      <div class="menu-title">私信</div>
-      <div class="menu-title">主页</div>
-      <div class="menu-title">设置</div>
+      <div
+        *ngFor="let profile of profileSettingList"
+        class="menu-title"
+        [ngClass]="{'menu-title-active': profile.name === currentFlag}"
+        (click)="onSelect(profile)"
+      >
+        <a routerLink="{{profile.linkTo}}">
+          {{profile.name}}
+        </a>
+      </div>
     </div>
   </div>
 </div>
+
+
+
